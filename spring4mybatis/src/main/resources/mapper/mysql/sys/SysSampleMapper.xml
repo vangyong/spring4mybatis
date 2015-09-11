@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.segema.sys.domain.SysSample">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+
+	<resultMap id="BaseResultMap" type="cn.segema.sys.domain.vo.SysSampleVo">
+		<id column="sample_id" property="sampleId" jdbcType="VARCHAR" />
+		<result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+		<result column="sample_value" property="sampleValue" jdbcType="VARCHAR" />
+		<result column="sample_group" property="sampleGroup" jdbcType="VARCHAR" />
+		<result column="sample_type" property="sampleType" jdbcType="VARCHAR" />
+		<result column="sample_order" property="sampleOrder" jdbcType="INTEGER" />
+		<result column="sample_status" property="sampleStatus" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		sample_id as sampleId,
+		sample_name as sampleName,
+		sample_value as sampleValue, 
+		sample_group as sampleGroup, 
+		sample_type as sampleType,
+		sample_order as sampleOrder,
+		sample_status as sampleStatus
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="sampleId != null"> and sample_id = #{sampleId}</if>
+				<if test="sampleName != null">and sample_name = #{sampleName}</if>
+				<if test="sampleValue != null">and sample_value = #{sampleValue}</if>
+				<if test="sampleGroup != null">and sample_group = #{sampleGroup}</if>
+				<if test="sampleType != null">and sample_type = #{sampleType}</if>
+				<if test="sampleOrder != null">and sample_order = #{sampleOrder}</if>
+				<if test="sampleStatus != null">and sample_status = #{sampleStatus}</if>
+				
+				<!-- 模糊查询 -->
+				<if test="sampleNameLike != null">and sample_name like CONCAT("%",#{sampleNameLike},"%")</if>
+				<if test="sampleGroupLike != null">and sample_group like CONCAT("%",#{sampleGroupLike},"%")</if>
+			</trim>
+		</where>
+		<if test="sorting != null">order by ${sorting}</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(sample_id)
+		from sys_sample
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from sys_sample
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_sample
+		where sample_id = #{sampleId}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from sys_sample
+		where sample_id = #{sampleId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from sys_sample
+		<include refid="Base_Where_Clause" />
+	</delete>
+
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="cn.segema.sys.domain.SysSample">
+		insert into sys_sample(
+			sample_id, 
+			sample_name, 
+			sample_value,
+			sample_group, 
+			sample_type, 
+			sample_order,
+			sample_status
+		)
+		values (
+			#{sampleId}, 
+			#{sampleName},
+			#{sampleValue},
+			#{sampleGroup}, 
+			#{sampleType}, 
+			#{sampleOrder},
+			#{sampleStatus}
+		)
+	</insert>
+	
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="cn.segema.sys.domain.SysSample">
+		update sys_sample
+		<set>
+			<if test="sampleName != null">sample_name = #{sampleName},</if>
+			<if test="sampleValue != null">sample_value = #{sampleValue},</if>
+			<if test="sampleGroup != null">sample_group = #{sampleGroup},</if>
+			<if test="sampleType != null">sample_type = #{sampleType},</if>
+			<if test="sampleOrder != null">sample_order = #{sampleOrder},</if>
+			<if test="sampleStatus != null">sample_status = #{sampleStatus},</if>
+		</set>
+		where sample_id = #{sampleId}
+	</update>
+	
+	<update id="updateById" parameterType="cn.segema.sys.domain.SysSample">
+		update sys_sample
+		set sample_name = #{sampleName},
+		sample_value = #{sampleValue},
+		sample_group = #{sampleGroup},
+		sample_type = #{sampleType},
+		sample_order = #{sampleOrder},
+		sample_status = #{sampleStatus}
+		where sample_id = #{sampleId}
+	</update>
+	
+	<!-- 测试查询 -->
+	<select id="testSelectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from sys_sample
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+</mapper>
