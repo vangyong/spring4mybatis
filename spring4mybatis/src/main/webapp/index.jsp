@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <html>
+<head>
 <style> 
 .divcss5{text-align:center} 
 </style> 
+<script type="text/javascript" src="./resources/js/common/webtoolkit.base64.js"></script>
+<script type="text/javascript" src="./resources/js/jquery/1.11.0/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="./resources/js/index.js" charset="utf-8"></script>
+</head>
 <body>
 <div class="divcss5">
-<h2>Hello World!</h2>
-<h2><a href="sys/user/user">测试user</a></h2>
+<input type=button value="testJason" onclick="testJason();"/>
+<h2><a href="sys/user/testJason/123">测试testJason</a></h2>
 <h2><a href="sys/user/listGroupUser?nickNameLike=jesse">测试listGroupUser</a></h2>
 <h2><a href="sys/dictionary?sort=dicOrder">查看字典信息</a></h2>
 <h2><a href="sys/sample?sort=sampleOrder">查看样品信息</a></h2>
@@ -24,9 +29,6 @@
 	<input type="file" name="file3" /> <input type="text" name="alais" /><br />
 	<input type="submit" value="上传" />
 </form>
-
-<input id="btn_test" type="button" value="测试" />
-
 </div>
 
 

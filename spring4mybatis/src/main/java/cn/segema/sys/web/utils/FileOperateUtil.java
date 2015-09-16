@@ -87,7 +87,7 @@ public class FileOperateUtil {
 
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		
-		MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		//MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 
 	/*	MultipartHttpServletRequest multipartRequest = resolver.resolveMultipart(request);
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();*/
