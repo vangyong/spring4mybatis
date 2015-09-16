@@ -2,7 +2,7 @@ package cn.segema.frame.core.dao.constants;
 
 /**
  * Mybatis Sql脚本的ID名称
- * @author Jiangbin
+ * @author wangyong
  * @date 2014-3-7下午10:27:42
  */
 public interface SqlId {

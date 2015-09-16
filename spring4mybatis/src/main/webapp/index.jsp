@@ -6,6 +6,8 @@
 <body>
 <div class="divcss5">
 <h2>Hello World!</h2>
+<h2><a href="sys/user/user">测试user</a></h2>
+<h2><a href="sys/user/listGroupUser?nickNameLike=jesse">测试listGroupUser</a></h2>
 <h2><a href="sys/dictionary?sort=dicOrder">查看字典信息</a></h2>
 <h2><a href="sys/sample?sort=sampleOrder">查看样品信息</a></h2>
 <h2><a href="sys/sample/testSelectList">测试</a></h2>

@@ -10,7 +10,7 @@ import org.apache.commons.beanutils.BeanMap;
 
 /**
  * 对Bean进行操作的相关工具方法
- * @author jiangbin
+ * @author wangyong
  *
  */
 public class BeanUtils {
