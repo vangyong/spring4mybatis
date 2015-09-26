@@ -4,118 +4,125 @@
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
 
 	<resultMap id="BaseResultMap" type="cn.segema.sys.domain.vo.SysUserVo">
-		<id column="userid" property="userId" jdbcType="VARCHAR" />
-		<result column="loginname" property="loginName" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="nickname" property="nickName" jdbcType="VARCHAR" />
-		<result column="mobilenumber" property="mobileNumber" jdbcType="VARCHAR" />
-		<result column="gender" property="gender" jdbcType="INTEGER" />
-		<result column="bornaddress" property="bornAddress" jdbcType="VARCHAR" />
-		<result column="borndate" property="bornDate" jdbcType="DATE" />
-		<result column="weight" property="weight" jdbcType="DECIMAL" />
-		<result column="height" property="height" jdbcType="DECIMAL" />
-		<result column="bloodtype" property="bloodType" jdbcType="INTEGER" />
-		<result column="email" property="email" jdbcType="VARCHAR" />
-		<result column="address" property="address" jdbcType="VARCHAR" />
+		<id column="USERID" property="userId" jdbcType="VARCHAR" />
+		<result column="LOGINNAME" property="loginName" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="NICKNAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="MOBILENUMBER" property="mobileNumber" jdbcType="VARCHAR" />
+		<result column="GENDER" property="gender" jdbcType="INTEGER" />
+		<result column="BORNADDRESSID" property="bornAddressId" jdbcType="VARCHAR" />
+		<result column="BORNDATE" property="bornDate" jdbcType="DATE" />
+		<result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+		<result column="HEIGHT" property="height" jdbcType="DECIMAL" />
+		<result column="BLOODTYPE" property="bloodType" jdbcType="INTEGER" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="HOMEADDRESSID" property="homeAddressId" jdbcType="VARCHAR" />
+		<result column="GROUPID" property="groupId" jdbcType="VARCHAR" />
+		<result column="NATION" property="nation" jdbcType="VARCHAR" />
+		<result column="IDENTITYNUMBER" property="identityNumber" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		userid as userId,
-		loginname as loginName,
-		password as password,
-		nickname as nickName,
-		mobilenumber as mobileNumber,
-		gender as gender,
-		bornaddress as bornAddress,
-		borndate as bornDate,
-		weight as weight,
-		height as height,
-		bloodtype as bloodType,
-		email as email, 
-		address as address
+		USERID as userId,
+		LOGINNAME as loginName,
+		PASSWORD as password,
+		NICKNAME as nickName,
+		MOBILENUMBER as mobileNumber,
+		GENDER as gender,
+		BORNADDRESSID as bornAddressId,
+		BORNDATE as bornDate,
+		WEIGHT as weight,
+		HEIGHT as height,
+		BLOODTYPE as bloodType,
+		EMAIL as email, 
+		HOMEADDRESSID as homeAddressId,
+		GROUPID as groupId,
+		NATION as nation,
+		IDENTITYNUMBER as identityNumber
 	</sql>
 	
 	
 	<sql id="Base_Where_Clause">
 		<where>
 			<trim prefixOverrides="and">
-				<if test="userId != null"> and userid = #{userId}</if>
-				<if test="loginName != null">and loginname = #{loginName}</if>
-				<if test="password != null">and password = #{password}</if>
-				<if test="nickName != null">and nickname = #{nickName}</if>
-				<if test="mobileNumber != null">and mobilenumber = #{mobileNumber}</if>
-				<if test="gender != null">and gender = #{gender}</if>
-				<if test="bornAddress != null">and bornaddress = #{bornAddress}</if>
-				<if test="bornDate != null">and borndate = #{bornDate}</if>
-				<if test="weight != null">and weight = #{weight}</if>
-				<if test="height != null">and height = #{height}</if>
-				<if test="bloodType != null">and bloodtype = #{bloodType}</if>
-				<if test="email != null">and email = #{email}</if>
-				<if test="address != null">and address = #{address}</if>
+				<if test="userId != null"> AND USERID = #{userId}</if>
+				<if test="loginName != null">AND LOGINNAME = #{loginName}</if>
+				<if test="password != null">AND PASSWORD = #{password}</if>
+				<if test="nickName != null">AND NICKNAME = #{nickName}</if>
+				<if test="mobileNumber != null">AND MOBILENUMBER = #{mobileNumber}</if>
+				<if test="gender != null">AND GENDER = #{gender}</if>
+				<if test="bornAddressId != null">AND BORNADDRESSID = #{bornAddressId}</if>
+				<if test="bornDate != null">AND BORNDATE = #{bornDate}</if>
+				<if test="weight != null">AND WEIGHT = #{weight}</if>
+				<if test="height != null">AND HEIGHT = #{height}</if>
+				<if test="bloodType != null">AND BLOODTYPE = #{bloodType}</if>
+				<if test="email != null">AND EMAIL = #{email}</if>
+				<if test="homeAddressId != null">AND HOMEADDRESSID = #{homeAddressId}</if>
 				
 				<!-- 模糊查询 -->
-				<if test="nickNameLike != null">and nickname like CONCAT("%",#{nickNameLike},"%")</if>
-				<if test="bornAddressLike != null">and bornaddress like CONCAT("%",#{bornAddressLike},"%")</if>
+				<if test="userNameLike != null">AND NICKNAME LIKE CONCAT("%",#{userNameLike},"%")</if>
 			</trim>
 		</where>
-		<if test="sorting != null">order by ${sorting}</if>
+		<if test="sorting != null">ORDER BY ${sorting}</if>
 		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+			LIMIT #{offset}, #{limit}
 		</if>
 	</sql>
 	
 	<!-- 查询总数 -->
 	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
-		select count(userid)
-		from sys_user
+		SELECT COUNT(USERID)
+		FROM SYS_USER
 		<include refid="Base_Where_Clause" />
 	</select>
 	
 	<!-- 查询 -->
 	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select
+		SELECT
 		<include refid="Base_Column_List" />
-		from sys_user
+		FROM SYS_USER
 		<include refid="Base_Where_Clause" />
 	</select>
 	
 	<!-- 根据ID查询 -->
 	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select
+		SELECT
 		<include refid="Base_Column_List" />
-		from sys_user
-		where userid = #{userId}
+		FROM SYS_USER
+		WHERE USERID = #{userId}
 	</select>
 	
 	<!-- 根据ID删除 -->
 	<delete id="deleteById" parameterType="java.lang.String">
-		delete from sys_user
-		where userid = #{userId}
+		DELETE FROM SYS_USER
+		WHERE USERID = #{userId}
 	</delete>
 	
 	<!-- 删除 -->
 	<delete id="delete" parameterType="java.util.Map">
-		delete from sys_user
+		DELETE FROM SYS_USER
 		<include refid="Base_Where_Clause" />
 	</delete>
 
 	<!-- 添加 -->	
 	<insert id="insert" parameterType="cn.segema.sys.domain.SysUser">
-		insert into sys_user(
-			userid, 
-			loginname, 
-			password,
-			nickname, 
-			mobilenumber, 
-			gender,
-			bornaddress,
-			borndate,
-			weight,
-			height,
-			bloodtype,
-			email,
-			address,
-			groupid
+		INSERT INTO SYS_USER(
+			USERID, 
+			LOGINNAME, 
+			PASSWORD,
+			NICKNAME, 
+			MOBILENUMBER, 
+			GENDER,
+			BORNADDRESSID,
+			BORNDATE,
+			WEIGHT,
+			HEIGHT,
+			BLOODTYPE,
+			EMAIL,
+			HOMEADDRESSID,
+			GROUPID,
+			NATION,
+			IDENTITYNUMBER
 		)
 		values (
 			#{userId}, 
@@ -124,53 +131,60 @@
 			#{nickName},  	           
 			#{mobileNumber}, 
 			#{gender},
-			#{bornAddress},
+			#{bornAddressId},
 			#{bornDate},
 			#{weight},
 			#{height},
 			#{bloodType},
 			#{email},
-			#{address},
-			#{groupId}
+			#{homeAddressId},
+			#{groupId},
+			#{nation},
+			#{identityNumber}
 		)
 	</insert>
 	
 	
 	<!-- 通过ID更新 -->
 	<update id="updateByIdSelective" parameterType="cn.segema.sys.domain.SysUser">
-		update sys_user
+		UPDATE SYS_USER
 		<set>
-			<if test="loginName != null">loginname = #{loginName},</if>
-			<if test="password != null">password = #{password},</if>
-			<if test="nickName != null">nickname = #{nickName},</if>
-			<if test="mobileNumber != null">mobilenumber = #{mobileNumber},</if>
-			<if test="gender != null">gender = #{gender},</if>
-			<if test="bornAddress != null">bornaddress = #{bornAddress},</if>
-			<if test="bornDate != null">borndate = #{bornDate},</if>
-			<if test="weight != null">weight = #{weight},</if>
-			<if test="height != null">height = #{height},</if>
-			<if test="bloodType != null">bloodtype = #{bloodType},</if>
-			<if test="email != null">email = #{email},</if>
-			<if test="address != null">address = #{address},</if>
+			<if test="loginName != null">LOGINNAME = #{loginName},</if>
+			<if test="password != null">PASSWORD = #{password},</if>
+			<if test="nickName != null">NICKNAME = #{nickName},</if>
+			<if test="mobileNumber != null">MOBILENUMBER = #{mobileNumber},</if>
+			<if test="gender != null">GENDER = #{gender},</if>
+			<if test="bornAddressId != null">BORNADDRESSID = #{bornAddressId},</if>
+			<if test="bornDate != null">BORNDATE = #{bornDate},</if>
+			<if test="weight != null">WEIGHT = #{weight},</if>
+			<if test="height != null">HEIGHT = #{height},</if>
+			<if test="bloodType != null">BLOODTYPE = #{bloodType},</if>
+			<if test="email != null">EMAIL = #{email},</if>
+			<if test="homeAddressId != null">HOMEADDRESSID = #{homeAddressId},</if>
+			<if test="groupId != null">GROUPID = #{groupId},</if>
+			<if test="nation != null">NATION = #{nation},</if>
+			<if test="identityNumber != null">IDENTITYNUMBER = #{identityNumber},</if>
 		</set>
-		where userid = #{userId}
+		WHERE USERID = #{userId}
 	</update>
 	
 	<update id="updateById" parameterType="cn.segema.sys.domain.SysUser">
-		update sys_user
-		set sample_name = #{loginName},
-		sample_value = #{password},
-		sample_group = #{nickName},
-		sample_type = #{mobileNumber},
-		sample_order = #{gender},
-		sample_status = #{bornAddress},
-		sample_status = #{bornDate},
-		sample_status = #{weight},
-		sample_status = #{height},
-		sample_status = #{bloodType},
-		sample_status = #{email},
-		sample_status = #{address},
-		sample_status = #{groupid}
+		UPDATE SYS_USER
+		SET LOGINNAME = #{loginName},
+		PASSWORD = #{password},
+		NICKNAME = #{nickName},
+		MOBILENUMBER = #{mobileNumber},
+		GENDER = #{gender},
+		BORNADDRESSID = #{bornAddressId},
+		BORNDATE = #{bornDate},
+		WEIGHT = #{weight},
+		HEIGHT = #{height},
+		BLOODTYPE = #{bloodType},
+		EMAIL = #{email},
+		HOMEADDRESSID = #{homeAddressId},
+		GROUPID = #{groupId},
+		NATION = #{nation},
+		IDENTITYNUMBER = #{identityNumber}
 		where userid = #{userId}
 	</update>
 	

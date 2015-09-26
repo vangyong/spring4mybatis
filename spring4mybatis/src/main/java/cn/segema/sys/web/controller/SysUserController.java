@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +30,9 @@ import cn.segema.sys.domain.SysUser;
 import cn.segema.sys.domain.query.SysGroupUserQuery;
 import cn.segema.sys.domain.query.SysUserQuery;
 import cn.segema.sys.domain.vo.SysGroupUserVo;
+import cn.segema.sys.domain.vo.SysUserVo;
+import cn.segema.sys.parameter.LoginParameter;
+import cn.segema.sys.parameter.RegisterParameter;
 import cn.segema.sys.service.SysUserService;
 
 /**
@@ -59,10 +64,56 @@ public class SysUserController extends BaseControllerImpl<SysUser, SysUserQuery>
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/testJason/{userId}",method = RequestMethod.GET)
-	public Result testJason(@PathVariable String userId) {
-		List<SysGroupUserVo> users = sysUserService.queryGroupUser(userId);
+	@RequestMapping(value = "/testPost",
+					method = RequestMethod.POST, 
+					produces = MediaType.APPLICATION_JSON_VALUE,
+					consumes = MediaType.APPLICATION_JSON_VALUE,
+					headers="Content-Type=application/json")
+	public Result testPost(@RequestBody RegisterParameter parameter) {
+		List<SysGroupUserVo> users = sysUserService.queryGroupUser(parameter.getMobileNumber());
 		  return new Result(Status.OK, "成功！",users);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/testGet/{mobileNumber}/{password}",method = RequestMethod.GET)
+	public Result testGet(@PathVariable String mobileNumber,@PathVariable String password) {
+		SysUser sysUser = new SysUser();
+		sysUser.setLoginName(mobileNumber);
+		sysUser.setMobileNumber(mobileNumber);
+		sysUser.setPassword(password);
+		getBaseService().insert(sysUser);
+		return new Result(Status.OK,"成功！", sysUser);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/register",
+					method = RequestMethod.POST, 
+					produces = MediaType.APPLICATION_JSON_VALUE,
+					consumes = MediaType.APPLICATION_JSON_VALUE,
+					headers="Content-Type=application/json")
+	public Result register(@RequestBody RegisterParameter parameter) {
+		SysUser sysUser = new SysUser();
+		sysUser.setLoginName(parameter.getMobileNumber());
+		sysUser.setMobileNumber(parameter.getMobileNumber());
+		sysUser.setPassword(parameter.getPassword());
+		getBaseService().insert(sysUser);
+		return new Result(Status.OK,"成功！", sysUser);
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/login",
+					method = RequestMethod.POST, 
+					produces = MediaType.APPLICATION_JSON_VALUE,
+					consumes = MediaType.APPLICATION_JSON_VALUE,
+					headers="Content-Type=application/json")
+	public Result login(@RequestBody LoginParameter parameter) {
+		SysUserQuery sysUserQuery = new SysUserQuery();
+		sysUserQuery.setLoginName(parameter.getLoginName());
+		sysUserQuery.setPassword(parameter.getPassword());
+		SysUserVo sysUserVo = getBaseService().queryOne(sysUserQuery);
+		return new Result(Status.OK,"成功！", sysUserVo);
 	}
 
 }
