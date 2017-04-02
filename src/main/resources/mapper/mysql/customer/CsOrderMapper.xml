@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.segema.customer.domain.CsOrder">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+
+	<resultMap id="BaseResultMap" type="cn.segema.customer.domain.vo.CsOrderVo">
+		<id column="ORDERID" property="orderId" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="USERID" property="userId" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ORDERID as orderId,
+		NAME as name,
+		USERID as userId,
+		USERNAME as userName,
+		PRICE as price
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="orderId != null"> AND ORDERID = #{orderId}</if>
+				<if test="name != null">AND NAME = #{name}</if>
+				<if test="userId != null">AND USERID = #{userId}</if>
+				<if test="userName != null">AND USERNAME = #{userName}</if>
+				<if test="price != null">AND PRICE = #{price}</if>
+				<!-- 模糊查询 -->
+				<if test="name != null">AND NAME LIKE CONCAT("%",#{nameLike},"%")</if>
+			</trim>
+		</where>
+		<if test="sorting != null">ORDER BY ${sorting}</if>
+		<if test="offset != null and limit != null">
+			LIMIT #{offset}, #{limit}
+		</if>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		SELECT COUNT(ORDERID)
+		FROM BS_ORDER
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM BS_ORDER
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM BS_ORDER
+		WHERE ORDERID = #{orderId}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM BS_ORDER
+		WHERE ORDERID = #{orderId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM BS_ORDER
+		<include refid="Base_Where_Clause" />
+	</delete>
+
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="cn.segema.customer.domain.CsOrder">
+		INSERT INTO BS_ORDER(
+			ORDERID, 
+			NAME, 
+			USERID,
+			USERNAME, 
+			PRICE
+		)
+		values (
+			#{orderId}, 
+			#{name},
+			#{userId},
+			#{userName},  	           
+			#{price}
+		)
+	</insert>
+	
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="cn.segema.customer.domain.CsOrder">
+		UPDATE BS_ORDER
+		<set>
+			<if test="orderId != null">ORDERID = #{orderId},</if>
+			<if test="name != null">NAME = #{name},</if>
+			<if test="userId != null">USERID = #{userId},</if>
+			<if test="userName != null">USERNAME = #{userName},</if>
+			<if test="price != null">PRICE = #{price},</if>
+		</set>
+		WHERE ORDERID = #{orderId}
+	</update>
+	
+	<update id="updateById" parameterType="cn.segema.customer.domain.CsOrder">
+		UPDATE BS_ORDER
+		SET NAME = #{name},
+		USERID = #{userId},
+		USERNAME = #{userName},
+		PRICE = #{price}
+		WHERE ORDERID = #{orderId}
+	</update>
+	
+	<!-- 测试查询 -->
+	<select id="testSelectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM BS_ORDER
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+</mapper>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.segema.system.domain.SysResources">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true"/>
+
+	<resultMap id="BaseResultMap" type="cn.segema.system.domain.vo.SysResourcesVo">
+		<id column="RESID" property="resId" jdbcType="VARCHAR" />
+		<result column="RESNAME" property="resName" jdbcType="VARCHAR" />
+		<result column="PARENTID" property="parentId" jdbcType="VARCHAR" />
+		<result column="RESCODE" property="resCode" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="RESURL" property="resUrl" jdbcType="VARCHAR" />
+		<result column="RESLEVEL" property="resLevel" jdbcType="VARCHAR" />
+		<result column="ICON" property="icon" jdbcType="VARCHAR" />
+		<result column="ISHIDE" property="isHide" jdbcType="DECIMAL" />
+		<result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		<result column="DELETESTATUS" property="deleteStatus" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		RESID as resId,
+		RESNAME as resName,
+		PARENTID as parentId,
+		RESCODE as resCode,
+		TYPE as type,
+		RESURL as resUrl,
+		RESLEVEL as resLevel,
+		ICON as icon,
+		ISHIDE as isHide,
+		DESCRIPTION as description,
+		DELETESTATUS as deleteStatus
+	</sql>
+	
+	
+	<sql id="Base_Where_Clause">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="resId != null"> AND RESID = #{resId}</if>
+				<if test="resName != null">AND RESNAME = #{resName}</if>
+				<if test="parentId != null">AND PARENTID = #{parentId}</if>
+				<if test="resCode != null">AND RESCODE = #{resCode}</if>
+				<if test="type != null">AND TYPE = #{type}</if>
+				<if test="resUrl != null">AND RESURL = #{resUrl}</if>
+				<if test="resLevel != null">AND RESLEVEL = #{resLevel}</if>
+				<if test="icon != null">AND ICON = #{icon}</if>
+				<if test="isHide != null">AND ISHIDE = #{isHide}</if>
+				<if test="description != null">AND DESCRIPTION = #{description}</if>
+				<if test="deleteStatus != null">AND DELETESTATUS = #{deleteStatus}</if>
+				<!-- 模糊查询 -->
+				<!-- <if test="systemName != null">AND SYSTEMNAME LIKE CONCAT("%",#{systemNameLike},"%")</if> -->
+			</trim>
+		</where>
+		<if test="sorting != null">ORDER BY ${sorting}</if>
+		<!-- <if test="offset != null and limit != null">
+			LIMIT #{offset}, #{limit}
+		</if> -->
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		SELECT COUNT(RESID)
+		FROM SYS_RESOURCES
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_RESOURCES
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_RESOURCES
+		WHERE RESID = #{resId}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM SYS_RESOURCES
+		WHERE RESID = #{resId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		DELETE FROM SYS_RESOURCES
+		<include refid="Base_Where_Clause" />
+	</delete>
+
+	<!-- 添加 -->	
+	<insert id="insert" parameterType="cn.segema.system.domain.SysResources">
+		INSERT INTO SYS_RESOURCES(
+			RESID,
+			RESNAME,  
+			PARENTID, 
+			RESCODE,
+			TYPE,
+			RESURL,
+			RESLEVEL,
+			ICON,
+			ISHIDE,
+			DESCRIPTION,
+			DELETESTATUS
+		)
+		values (
+			#{resId,jdbcType=VARCHAR}, 
+			#{resName,jdbcType=VARCHAR},  	  
+			#{parentId,jdbcType=VARCHAR},
+			#{resCode,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{resUrl,jdbcType=VARCHAR},
+			#{resLevel,jdbcType=VARCHAR},
+			#{icon,jdbcType=VARCHAR},
+			#{isHide,jdbcType=DECIMAL},
+			#{description,jdbcType=VARCHAR},
+			#{deleteStatus,jdbcType=DECIMAL}
+		)
+	</insert>
+	
+	
+	<!-- 通过ID更新 -->
+	<update id="updateByIdSelective" parameterType="cn.segema.system.domain.SysResources">
+		UPDATE SYS_RESOURCES
+		<set>
+			<if test="resId != null">RESID = #{resId},</if>
+			<if test="resName != null">RESNAME = #{resName},</if>
+			<if test="parentId != null">PARENTID = #{parentId},</if>
+			<if test="resCode != null">RESCODE = #{resCode},</if>
+			<if test="type != null">TYPE = #{type},</if>
+			<if test="resUrl != null">RESURL = #{resUrl},</if>
+			<if test="resLevel != null">RESLEVEL = #{resLevel},</if>
+			<if test="icon != null">ICON = #{icon},</if>
+			<if test="isHide != null">ISHIDE = #{isHide},</if>
+			<if test="description != null">DESCRIPTION = #{description},</if>
+			<if test="deleteStatus != null">DELETESTATUS = #{deleteStatus},</if>
+		</set>
+		WHERE RESID = #{resId}
+	</update>
+	
+	<update id="updateById" parameterType="cn.segema.system.domain.SysResources">
+		UPDATE SYS_RESOURCES
+		SET RESID = #{resId},
+		RESNAME = #{resName},
+		PARENTID = #{parentId},
+		RESCODE = #{resCode},
+		TYPE = #{type},
+		RESURL = #{resUrl},
+		RESLEVEL = #{resLevel},
+		ICON = #{icon},
+		ISHIDE = #{isHide},
+		DESCRIPTION = #{description},
+		DELETESTATUS = #{deleteStatus},
+		WHERE RESID = #{resId}
+	</update>
+	
+	<!-- 查询全部 -->
+	<select id="selectResources" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM SYS_RESOURCES
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+</mapper>
