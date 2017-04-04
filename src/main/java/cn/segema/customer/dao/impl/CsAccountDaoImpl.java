@@ -23,8 +23,8 @@ public class CsAccountDaoImpl extends BaseDaoImpl<CsAccount> implements CsAccoun
 
 	@Override
 	public CsAccountVo queryAccountById(String accountId) {
-		// TODO Auto-generated method stub
-		return null;
+		CsAccountVo accountVo = sqlSessionTemplate.selectOne(accountId);
+		return accountVo;
 	}
 	
 	@Override
