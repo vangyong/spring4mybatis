@@ -18,6 +18,6 @@ public interface CsOrderDao extends BaseDao<CsOrder> {
 	
 	public Page<CsOrderVo> queryOrdersByPage(CsOrderQuery query,Pageable pageable);
 	
-	public List<CsOrderVo> queryOrderByUserId(String userId);
+	public List<CsOrderVo> queryOrderByAccountId(String accountId);
 
 }

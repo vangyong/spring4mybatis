@@ -1,22 +1,15 @@
 package cn.segema.customer.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import cn.segema.customer.dao.CsAccountDao;
-import cn.segema.customer.dao.CsOrderDao;
 import cn.segema.customer.domain.CsAccount;
-import cn.segema.customer.domain.CsOrder;
 import cn.segema.customer.domain.query.CsAccountQuery;
-import cn.segema.customer.domain.query.CsOrderQuery;
 import cn.segema.customer.domain.vo.CsAccountVo;
-import cn.segema.customer.domain.vo.CsOrderVo;
 import cn.segema.customer.service.CsAccountService;
-import cn.segema.customer.service.CsOrderService;
 import cn.segema.frame.core.dao.BaseDao;
 import cn.segema.frame.core.service.impl.BaseServiceImpl;
 
@@ -26,24 +19,24 @@ import cn.segema.frame.core.service.impl.BaseServiceImpl;
  * @date 2014年3月7日下午2:27:08
  */
 @Service
-public class CsOrderServiceImpl extends BaseServiceImpl<CsOrder> implements CsOrderService {
+public class CsAccountServiceImpl extends BaseServiceImpl<CsAccount> implements CsAccountService {
 	@Autowired
-	private CsOrderDao orderDao;
+	private CsAccountDao accountDao;
 	
 
 	@Override
-	protected BaseDao<CsOrder> getBaseDao() {
-		return orderDao;
+	protected BaseDao<CsAccount> getBaseDao() {
+		return accountDao;
 	}
 
 	@Override
-	public Page<CsOrderVo> queryOrdersByPage(CsOrderQuery query,Pageable pageable) {
-		return orderDao.queryOrdersByPage(query, pageable);
+	public Page<CsAccountVo> queryAccountsByPage(CsAccountQuery query,Pageable pageable) {
+		return accountDao.queryAccountsByPage(query, pageable);
 	}
 
 	@Override
-	public List<CsOrderVo> queryOrderByAccountId(String accountId) {
-		return orderDao.queryOrderByAccountId(accountId);
+	public CsAccountVo queryAccountById(String accountId) {
+		return accountDao.queryAccountById(accountId);
 	}
 	
 	

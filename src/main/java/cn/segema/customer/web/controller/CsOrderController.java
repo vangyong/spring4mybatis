@@ -63,7 +63,7 @@ public class CsOrderController extends BaseControllerImpl<CsOrder, CsOrderQuery>
 					headers="Content-Type=application/json")
 	public Result queryOrderByUserId(@RequestBody CsOrderParameter parameter) {
 		String userId = parameter.getUserId();
-		List<CsOrderVo> orders = csOrderService.queryOrderByUserId(userId);
+		List<CsOrderVo> orders = csOrderService.queryOrderByAccountId(userId);
 		if(null!=orders){
 			return new Result(Status.OK,"成功！", orders);
 		}else{
