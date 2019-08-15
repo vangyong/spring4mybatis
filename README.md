@@ -1,2 +1,2 @@
-# spring4mybatis
-APP后台
+# Spring4+mybatis工程
+APP后台接口
