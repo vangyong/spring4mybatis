@@ -9,7 +9,7 @@
   <url>http://maven.apache.org</url>
   
   <properties><!-- 4.0.2.RELEASE --><!-- 4.1.7.RELEASE -->
-		<springframework-version>4.1.7.RELEASE</springframework-version>
+		<springframework-version>5.3.18</springframework-version>
 		<slf4j-version>1.7.6</slf4j-version>
 		<log4j-version>1.2.17</log4j-version>
 		<mysql-connector-version>5.1.37</mysql-connector-version>
